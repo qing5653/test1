@@ -1,0 +1,51 @@
+parameter,value,description,data_source,note
+first_store_location,太古里东广场核心区(CD-C02),首店落位商圈,Q2_Top3推荐区域.csv,
+first_store_opening_date,2026-07,首店开业时间,假设,假设2026年7月暑期开业
+analysis_start_date,2024-07,效应分析起始时间,历史数据起点,
+analysis_end_date,2027-06,效应分析终止时间,预测终点,
+pre_opening_months,12,开业前观察期月数,,用于建立基准水平
+post_opening_months,12,开业后观察期月数,,用于评估首店效应
+
+# 首店效应参数（情景假设）
+initial_lift_rate,0.15,开业首月初始拉动幅度(15%),情景假设,参照同类茶饮首店开业效应文献
+lift_duration_months,6,效应持续月数,,假设开业效应持续6个月
+monthly_decay_rate,0.20,月度衰减率(20%),情景假设,每过一个月效应减弱20%
+peak_month,lift_duration_months/2,效应峰值月份,,开业后第3个月效应最强
+max_lift_at_peak,0.22,峰值月拉动幅度(22%),情景假设,考虑口碑传播和打卡效应
+
+# 品牌集聚效应参数
+competing_brand_growth_rate,0.08,首店开业后竞品增长率(8%/年),情景假设,首店带动商圈热度上升
+cluster_effect_duration,12,品牌集聚效应持续月数,,首店开业后一年内效应最明显
+surrounding_stores_increment,5,周边新增同类品牌数量,情景假设,首店开业后一年内周边新增5家同类店
+
+# 溢出效应参数
+spillover_radius_km,0.5,溢出效应半径(公里),情景假设,
+adjacent_business_growth,0.05,周边商户增长率(5%),情景假设,首店开业后周边商户销售额平均增长
+night_economy_lift,0.12,夜间经济提升幅度(12%),情景假设,茶饮品牌对夜间消费有明显拉动
+tourist_attraction_increase,0.10,旅游吸引力提升(10%),情景假设,首店成为网红打卡点吸引游客
+
+# DID模型参数（用于效应评估）
+treatment_group,C02,处理组商圈,C02为太古里东广场核心区,
+control_group_1,C01,对照组商圈1,C01为春熙路步行街南入口,
+control_group_2,C05,对照组商圈2,C05为天府广场-成都博物馆周边,
+did_pre_periods,6,DID预 Period 期月数,,2024-01至2024-06
+did_post_periods,6,DID观察期月数,,2026-07至2026-12
+expected_beta,0.08,预期DID估计量,情景假设,首店开业使商圈消费增长8%
+
+# 模型构建建议
+model_type_1,SARIMAX,推荐模型1,SARIMAX,带外生变量的季节性ARIMA
+model_type_2,Prophet,推荐模型2,Prophet,适合多节假日效应的分解模型
+model_type_3,XGBoost,推荐模型3,XGBoost,非线性关系和多特征预测
+forecast_horizon,12,预测期（月）,,预测2026年7月至2027年6月
+validation_metric,MAPE,验证指标,MAPE,平均绝对百分比误差
+
+注：
+1. 本表为首店开业冲击效应分析的参数设定
+2. 参数基于同类案例文献和行业经验假设
+3. 实际竞赛中可根据题目条件调整参数
+4. DID模型需要处理组和对照组的选择，需保证平行趋势假设成立
+
+数据来源说明：
+- Q2_Top3推荐区域.csv: 问题2选址优化结果
+- 情景假设: 基于茶饮行业首店效应研究和成都商圈特征
+- 文献参考: 零售业首店效应研究、品牌集聚效应相关文献
